@@ -84,6 +84,7 @@
 ;; - Ruby (rubocop, rufo, standardrb, stree)
 ;; - Rust (rustfmt)
 ;; - Scala (scalafmt)
+;; - Scheme (guix-style)
 ;; - Shell script (beautysh, shfmt)
 ;; - Snakemake (snakefmt)
 ;; - Solidity (prettier plugin)
@@ -1364,6 +1365,13 @@ Consult the existing formatters for examples of BODY."
   (:format
    (format-all--buffer-easy
     executable "--stdin" "--non-interactive" "--quiet" "--stdout")))
+
+(define-format-all-formatter guix-style
+  (:executable "guix")
+  (:install)
+  (:languages "Scheme")
+  (:features)
+  (:format (format-all--buffer-easy executable "style" "--whole-file")))
 
 (define-format-all-formatter shfmt
   (:executable "shfmt")
