@@ -1369,7 +1369,7 @@ Consult the existing formatters for examples of BODY."
 (define-format-all-formatter guix-style
   (:executable "guix")
   (:install)
-  (:languages "Scheme")
+  (:languages "Guix" "Guile" "Scheme")
   (:features)
   (:format (format-all--buffer-easy executable "style" "--whole-file")))
 
