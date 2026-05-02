@@ -84,6 +84,7 @@ Supported languages
 * **Ruby** ([*rubocop*](https://github.com/rubocop/rubocop), [*rufo*](https://github.com/ruby-formatter/rufo), [*standardrb*](https://github.com/testdouble/standard), [*stree (syntax_tree)*](https://github.com/ruby-syntax-tree/syntax_tree))
 * **Rust** ([*rustfmt*](https://github.com/rust-lang-nursery/rustfmt))
 * **Scala** ([*scalafmt*](https://github.com/scalameta/scalafmt))
+* **Scheme** ([*guix-style*](https://guix.gnu.org/manual/devel/en/html_node/Invoking-guix-style.html))
 * **Shell script** ([*beautysh*](https://github.com/lovesegfault/beautysh), [*shfmt*](https://github.com/mvdan/sh))
 * **Snakemake** ([*snakefmt*](https://github.com/snakemake/snakefmt))
 * **Solidity** ([*prettier plugin*](https://github.com/prettier-solidity/prettier-plugin-solidity))
