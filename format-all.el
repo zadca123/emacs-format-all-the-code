@@ -1371,7 +1371,12 @@ Consult the existing formatters for examples of BODY."
   (:install)
   (:languages "Scheme")
   (:features)
-  (:format (format-all--buffer-easy executable "style" "--whole-file" "-")))
+  (:format
+   (format-all--buffer-hard
+    '(0) nil nil
+    executable "style" "--whole-file"
+    (when (buffer-file-name)
+      (list (buffer-file-name))))))
 
 (define-format-all-formatter shfmt
   (:executable "shfmt")
