@@ -588,6 +588,20 @@ see `format-all--buffer-hard'."
      (car command-args)
      (cdr command-args))))
 
+(defun format-all--guix-style (executable _language _region)
+  "Format the current buffer using `guix style --whole-file`."
+  (let ((temp-file (make-temp-file "guix-style-"))
+        (original-content (buffer-string)))
+    (unwind-protect
+        (progn
+          (with-temp-file temp-file
+            (insert original-content))
+          (call-process executable nil nil nil "style" "--whole-file" temp-file)
+          (with-temp-buffer
+            (insert-file-contents temp-file)
+            (list (buffer-string) "")))
+      (delete-file temp-file))))
+
 (defvar format-all--executable-table (make-hash-table)
   "Internal table of formatter executable names for format-all.")
 
@@ -1366,24 +1380,14 @@ Consult the existing formatters for examples of BODY."
    (format-all--buffer-easy
     executable "--stdin" "--non-interactive" "--quiet" "--stdout")))
 
+;; Define the guix-style formatter
 (define-format-all-formatter guix-style
   (:executable "guix")
   (:install)
   (:languages "Scheme")
   (:features)
-  (:format
-   (lambda (executable language region)
-     (let ((temp-file (make-temp-file "guix-style-"))
-           (original-content (buffer-string)))
-       (with-temp-file temp-file
-         (insert original-content))
-       (call-process executable nil nil nil "style" "--whole-file" temp-file)
-       (with-temp-buffer
-         (insert-file-contents temp-file)
-         (let ((formatted-content (buffer-string)))
-           (if (string-empty-p formatted-content)
-               (list t "guix style produced empty output")
-             (list formatted-content ""))))))))
+  (:format format-all--guix-style))
+
 
 (define-format-all-formatter shfmt
   (:executable "shfmt")
