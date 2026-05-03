@@ -1386,8 +1386,13 @@ Consult the existing formatters for examples of BODY."
   (:install)
   (:languages "Scheme")
   (:features)
-  (:format format-all--guix-style))
+  (:format (format-all--guix-style)))
 
+;; (puthash 'guix-style "/usr/local/bin/guix" format-all--executable-table)
+;; (puthash 'guix-style nil format-all--install-table)
+;; (puthash 'guix-style '("Scheme") format-all--language-table)
+;; (puthash 'guix-style nil format-all--features-table)
+;; (puthash 'guix-style 'format-all--guix-style format-all--format-table)
 
 (define-format-all-formatter shfmt
   (:executable "shfmt")
