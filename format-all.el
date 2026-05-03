@@ -1386,7 +1386,32 @@ Consult the existing formatters for examples of BODY."
   (:install)
   (:languages "Scheme")
   (:features)
-  (:format (format-all--guix-style)))
+  (:format
+   (format-all--buffer-thunk
+    (lambda (input)
+      (let ((temp-file (make-temp-file "guix-style-"))
+            (error-output ""))
+        (unwind-protect
+            (progn
+              (with-temp-file temp-file
+                (insert input)
+                (write-region nil nil temp-file nil 'no-message))
+              (let ((status (call-process-region
+                             nil nil
+                             "guix" nil t
+                             nil
+                             "style" "--whole-file" temp-file)))
+                (unless (zerop status)
+                  (setq error-output
+                        (with-temp-buffer
+                          (call-process "guix" nil t nil "style" "--whole-file" temp-file)
+                          (buffer-string)))))
+              (when (zerop status)
+                (with-temp-file temp-file
+                  (setq input (buffer-string)))))
+          (delete-file temp-file))
+        (list (unless (string-empty-p error-output) nil)
+              error-output))))))
 
 ;; (puthash 'guix-style "/usr/local/bin/guix" format-all--executable-table)
 ;; (puthash 'guix-style nil format-all--install-table)
