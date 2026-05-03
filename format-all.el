@@ -1372,11 +1372,18 @@ Consult the existing formatters for examples of BODY."
   (:languages "Scheme")
   (:features)
   (:format
-   (format-all--buffer-hard
-    '(0) nil nil
-    executable "style" "--whole-file"
-    (when (buffer-file-name)
-      (list (buffer-file-name))))))
+   (lambda (executable language region)
+     (let ((temp-file (make-temp-file "guix-style-"))
+           (original-content (buffer-string)))
+       (with-temp-file temp-file
+         (insert original-content))
+       (call-process executable nil nil nil "style" "--whole-file" temp-file)
+       (with-temp-buffer
+         (insert-file-contents temp-file)
+         (let ((formatted-content (buffer-string)))
+           (if (string-empty-p formatted-content)
+               (list t "guix style produced empty output")
+             (list formatted-content ""))))))))
 
 (define-format-all-formatter shfmt
   (:executable "shfmt")
