@@ -1369,9 +1369,9 @@ Consult the existing formatters for examples of BODY."
 (define-format-all-formatter guix-style
   (:executable "guix")
   (:install)
-  (:languages "Guix" "Guile" "Scheme")
+  (:languages "Scheme")
   (:features)
-  (:format (format-all--buffer-easy executable "style" "--whole-file")))
+  (:format (format-all--buffer-easy executable "style" "--whole-file" "-")))
 
 (define-format-all-formatter shfmt
   (:executable "shfmt")
